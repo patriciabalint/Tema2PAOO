@@ -1,42 +1,46 @@
 #include <iostream>
 #include <string>
 
-class Car {
-    std::string nume;
-    int locuri;
+// Item 4: Asigură-te că obiectele sunt inițializate înainte de utilizare
+// Item 5: Cunoaște funcțiile pe care C++ le generează automat
+// Item 6: Șterge explicit funcțiile generate pe care nu le dorești
+
+class Bus {
+    std::string routeName;
+    int seats; // numărul de locuri
 
 public:
-    // Constructor explicit care initializează obiectul
-    Car(const std::string& nume, int locuri)
-        : nume(nume), locuri(locuri) {}
+    // Constructor care inițializează toți membrii (Item 4)
+    Bus(const std::string& routeName, int seats)
+        : routeName(routeName), seats(seats) {}
 
-    // Dezactivăm copy constructorul și operatorul de atribuire
-    Car(const Car&) = delete; // Copy constructor
-    Car& operator=(const Car&) = delete; // Operator de atribuire
+    Bus(const Bus&) = delete; // Ștergem copy constructorul (Item 6)
 
-    void afiseaza() const {
-        std::cout << "Marca car: " << nume << ", Locuri: " << locuri << "\n";
-    }
+    Bus& operator=(const Bus&) = delete; // Ștergem operatorul de atribuire (Item 6)
 
-    // Destructor
-    ~Car() {
-        std::cout << "Mașina '" << nume << "' distrusă prin destructor.\n";
+    void display() const {
+        std::cout << "Rută autobuz: " << routeName << ", Număr de locuri: " << seats << "\n";
+    } // Funcție pentru afișarea informațiilor despre autobuz
+
+    // Destructor pentru distrugerea obiectelor
+    ~Bus() {
+        std::cout << "Autobuzul de pe ruta '" << routeName << "' a fost distrus.\n";
     }
 };
 
 int main() {
-    // Inițializarea obiectului c1
-    Car c1("Tesla Model 3", 5);
-    c1.afiseaza();
+    // Inițializăm un obiect Bus
+    Bus bus1("Linia 21", 50); // Autobuz cu 50 de locuri
+    bus1.display();
 
-    // Încercarea de a crea un alt obiect prin copiere va da eroare
-    // Car c2 = c1; // Va da eroare pentru că copy constructorul a fost șters
+    // Încercăm să copiem autobuzul (va da eroare pentru că am șters copy constructorul)
+    // Bus bus2 = bus1; // Această linie va genera eroare!
 
-    Car c3("BMW X5", 7);
-    c3.afiseaza();
+    Bus bus3("Linia 335", 30); // Creăm alt autobuz
+    bus3.display();
 
-    // Încercarea de a atribui un obiect altuia va da eroare
-    // c3 = c1; // Va da eroare pentru că operatorul de atribuire a fost șters
+    // Încercăm să atribuim un autobuz altuia (va da eroare pentru că am șters operatorul=)
+    // bus2 = bus1; // Această linie va genera eroare!
 
     return 0;
 }
